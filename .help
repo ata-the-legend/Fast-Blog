@@ -1,0 +1,6 @@
+makemigrations:
+        alembic revision --autogenerate -m "test"
+migrate:
+        alembic upgrade head    #last migration
+        alembic upgrade {hash}
+        alembic downgrade {hash}
