@@ -24,5 +24,6 @@ class ReadBlog(BaseBlog):
         orm_mode = True
         
 class ListBlog(BaseBlog):
+    id: int
     class config:
         orm_mode = True
