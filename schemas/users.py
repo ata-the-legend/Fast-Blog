@@ -20,8 +20,4 @@ class ListUser(BaseUser):
     class config:
         orm_mode = True
 
-class LoginUser(BaseModel):
-    username: str
-    password: str
-
 
