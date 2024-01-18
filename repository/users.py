@@ -1,5 +1,3 @@
-from fastapi import HTTPException, status
-from dependencies import get_db
 from sqlalchemy.orm import Session
 import models
 from utils import Hash

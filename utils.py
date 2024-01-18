@@ -1,8 +1,7 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
-from typing import Annotated
 from jose import jwt
-
+import config
 
 # Hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -17,11 +16,6 @@ class Hash():
         return pwd_context.hash(password)
     
 # JWT
-SECRET_KEY = "09d25e094faa6ca2556c818166b7hso3b93f7099f6f0f4caa6cf63b88e8d3e9"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
@@ -29,6 +23,6 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
     return encoded_jwt
 
