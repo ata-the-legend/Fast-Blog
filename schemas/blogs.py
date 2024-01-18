@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class BaseBlog(BaseModel):
     title: str
-    Body: str
+    body: str
 
 class CreateBlog(BaseBlog):
     pass

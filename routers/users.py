@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from schemas import users as schemas
 from dependencies import get_db
 from sqlalchemy.orm import Session
@@ -9,11 +9,11 @@ router = APIRouter(
     tags=['User']
 )
 
-@router.post('/signup/', response_model=schemas.ReadUser)
+@router.post('/signup/', response_model=schemas.ReadUser, status_code=status.HTTP_201_CREATED)
 def create_user(user: schemas.CreateUser, db: Session = Depends(get_db)):
     db_user = repo.get_user_by_email(db, email=user.email)
     if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     return repo.create_user(db=db, user=user)
 
 @router.get('/', response_model=list[schemas.ListUser])
@@ -29,6 +29,6 @@ def read_user(
 ):
     db_user = repo.get_user(db=db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     return db_user
 
