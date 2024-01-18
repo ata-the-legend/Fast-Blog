@@ -27,11 +27,11 @@ def get_blog(blog_id: int, db: Session = Depends(get_db)):
     return repo.get_blog(db = db, blog_id=blog_id)
 
 
-@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def destroy(id:int, db: Session = Depends(get_db)):
-    return repo.destroy_blog(id,db)
+@router.delete('/{blog_id}', status_code=status.HTTP_204_NO_CONTENT)
+def destroy(blog_id:int, db: Session = Depends(get_db)):
+    return repo.destroy_blog(blog_id=blog_id, db=db)
 
 
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
-def update(id:int, request: schemas.CreateBlog, db: Session = Depends(get_db)):
-    return repo.update_blog(id,request, db)
+@router.put('/{blog_id}', status_code=status.HTTP_202_ACCEPTED)
+def update(blog_id:int, request: schemas.CreateBlog, db: Session = Depends(get_db)):
+    return repo.update_blog(blog_id=blog_id, db=db, request=request)
