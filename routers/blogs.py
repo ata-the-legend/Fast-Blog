@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from dependencies import get_db, get_current_user
 from sqlalchemy.orm import Session
 from schemas import blogs as schemas
@@ -35,6 +35,9 @@ def destroy(
     db: Session = Depends(get_db),
     current_user: ReadUser= Depends(get_current_user)
 ):
+    blog = repo.get_blog(db = db, blog_id=blog_id)
+    if current_user.id != blog.creator.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='permission denied')
     return repo.destroy_blog(blog_id=blog_id, db=db)
 
 
@@ -45,4 +48,7 @@ def update(
     db: Session = Depends(get_db),
     current_user: ReadUser= Depends(get_current_user)    
 ):
+    blog = repo.get_blog(db = db, blog_id=blog_id)
+    if current_user.id != blog.creator.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='permission denied')
     return repo.update_blog(blog_id=blog_id, db=db, request=request)
