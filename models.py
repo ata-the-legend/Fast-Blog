@@ -14,7 +14,7 @@ class User(Base):
 
     blogs = relationship('Blog', back_populates="creator")
 
-class Post(Base):
+class Blog(Base):
     
     __tablename__ = 'blogs'
 
