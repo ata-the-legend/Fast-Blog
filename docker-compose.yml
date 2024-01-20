@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python main.py
+    volumes:
+      - .:/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:15-alpine3.18
+    volumes:
+      - fast_blog_postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=fast_blog
+      - POSTGRES_PASSWORD=1234fast_blog
+      - POSTGRES_DB=fast_blog
+
+  
+  
+volumes:
+  fast_blog_postgres_data:
